@@ -1,6 +1,9 @@
 import numpy as np
 from scipy import spatial
+import random
 import matplotlib.pyplot as plt
+
+random.seed(42) 
 
 num_points = 50
 

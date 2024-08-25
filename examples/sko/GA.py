@@ -496,7 +496,7 @@ class GA_TSP(GeneticAlgorithmBase):
         return Chrom
 
     ranking = ranking.ranking
-    selection = selection.selection_tournament_faster
+    selection = selection.selection_tournament
     crossover = crossover.crossover_ox
     mutation = mutation.mutation_reverse
 
