@@ -22,6 +22,7 @@ from sko.GA import GA_TSP
 
 ga_tsp = GA_TSP(func=cal_total_distance, n_dim=num_points, size_pop=50, max_iter=500, prob_mut=1)
 best_points, best_distance = ga_tsp.run()
+print(best_distance,best_points)
 
 # %% plot
 fig, ax = plt.subplots(1, 2)

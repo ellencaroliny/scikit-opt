@@ -1,6 +1,6 @@
 import numpy as np
 
-__all__ = ['crossover_1point', 'crossover_2point', 'crossover_2point_bit', 'crossover_pmx', 'crossover_2point_prob']
+__all__ = ['crossover_1point', 'crossover_2point', 'crossover_2point_bit', 'crossover_pmx', 'crossover_2point_prob','crossover_ox']
 
 
 def crossover_1point(self):
@@ -100,3 +100,36 @@ def crossover_pmx(self):
 
         self.Chrom[i], self.Chrom[i + 1] = Chrom1, Chrom2
     return self.Chrom
+
+def crossover_ox(self):
+    Chrom, size_pop, len_chrom = self.Chrom, self.size_pop, self.len_chrom
+    for i in range(0, size_pop, 2):
+        row = self.Chrom[i]
+        next_row = self.Chrom[i + 1]
+        nodes = len_chrom
+        
+        min = np.random.randint(0, nodes - 1)
+        max = np.random.randint(0, nodes - 1)
+        
+        # Garantindo que min seja menor que max
+        if min > max:
+            min, max = max, min
+        
+        # Inicializando o cromossomo filho
+        crossed = [None] * nodes
+        
+        # Copiando o segmento do segundo pai para o filho
+        crossed[min:max+1] = next_row[min:max+1]
+        
+        # Preenchendo os elementos restantes do primeiro pai
+        iterator = 0
+        for element in row:
+            if element in crossed:
+                continue
+            while min <= iterator <= max:
+                iterator += 1
+            crossed[iterator] = element
+            iterator += 1
+        
+        # Atualizando o cromossomo original com o filho gerado
+        self.Chrom[i] = crossed
