@@ -3,7 +3,6 @@ from scipy import spatial
 import random
 import matplotlib.pyplot as plt
 
-random.seed(42) 
 
 num_points = 50
 
@@ -23,7 +22,7 @@ def cal_total_distance(routine):
 
 from sko.GA import GA_TSP
 
-ga_tsp = GA_TSP(func=cal_total_distance, n_dim=num_points, size_pop=50, max_iter=500, prob_mut=1)
+ga_tsp = GA_TSP(func=cal_total_distance, n_dim=num_points, size_pop=62, max_iter=629, prob_mut=0.49)
 best_points, best_distance = ga_tsp.run()
 print(best_distance,best_points)
 

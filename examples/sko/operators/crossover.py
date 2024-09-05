@@ -102,34 +102,29 @@ def crossover_pmx(self):
     return self.Chrom
 
 def crossover_ox(self):
-    Chrom, size_pop, len_chrom = self.Chrom, self.size_pop, self.len_chrom
-    for i in range(0, size_pop, 2):
-        row = self.Chrom[i]
-        next_row = self.Chrom[i + 1]
-        nodes = len_chrom
-        
-        min = np.random.randint(0, nodes - 1)
-        max = np.random.randint(0, nodes - 1)
-        
-        # Garantindo que min seja menor que max
-        if min > max:
-            min, max = max, min
-        
-        # Inicializando o cromossomo filho
-        crossed = [None] * nodes
-        
-        # Copiando o segmento do segundo pai para o filho
-        crossed[min:max+1] = next_row[min:max+1]
-        
-        # Preenchendo os elementos restantes do primeiro pai
-        iterator = 0
-        for element in row:
-            if element in crossed:
-                continue
-            while min <= iterator <= max:
-                iterator += 1
-            crossed[iterator] = element
-            iterator += 1
-        
-        # Atualizando o cromossomo original com o filho gerado
-        self.Chrom[i] = crossed
+    cromossomos, tamanho_populacao, comprimento_cromossomo = self.Chrom, self.size_pop, self.len_chrom
+    
+    #seleciona os pais
+    indice1, indice2 = np.random.choice(tamanho_populacao, 2, replace=False)
+    pai1, pai2 = cromossomos[indice1], cromossomos[indice2]
+    
+    # Escolhe aleatoriamente um "pedaço" do pai 1 
+    tamanho_subconjunto = np.random.randint(1, comprimento_cromossomo)
+    indices_subconjunto = np.random.choice(comprimento_cromossomo, tamanho_subconjunto, replace=False)
+    
+    # Inicializar o filho com -1
+    filho = [-1] * comprimento_cromossomo
+    
+    # Copia os genes das posições do pai 1 para o filho na mesma ordem e posição
+    for indice in indices_subconjunto:
+        filho[indice] = pai1[indice]
+    
+    # Preenche os genes restantes do filho com os genes pai 2
+    posicao_atual = 0
+    for gene in pai2:
+        if gene not in filho:
+            while filho[posicao_atual] != -1:
+                posicao_atual = (posicao_atual + 1) % comprimento_cromossomo # se chegar ao fim da lista ele volta para o começo
+            filho[posicao_atual] = gene
+    
+    return filho
